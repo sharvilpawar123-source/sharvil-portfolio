@@ -1,0 +1,233 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg-primary: #0d0d0d;
+    --bg-secondary: #141414;
+    --bg-card: rgba(26, 26, 26, 0.9);
+    --bg-card-border: rgba(255, 255, 255, 0.07);
+    --text-primary: #ffffff;
+    --text-secondary: #a3a3a3;
+    --text-muted: #737373;
+    --accent: #f97316;
+    --accent-hover: #ea6c0a;
+    --accent-light: rgba(249, 115, 22, 0.12);
+    --accent-glow: rgba(249, 115, 22, 0.25);
+    --grid-color: rgba(255, 255, 255, 0.025);
+    --border: rgba(255, 255, 255, 0.08);
+  }
+
+  .light {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8fafc;
+    --bg-card: #ffffff;
+    --bg-card-border: #e2e8f0;
+    --text-primary: #0f172a;
+    --text-secondary: #334155;
+    --text-muted: #64748b;
+    --accent: #f97316;
+    --accent-hover: #ea6c0a;
+    --accent-light: rgba(249, 115, 22, 0.10);
+    --grid-color: rgba(0, 0, 0, 0.045);
+    --border: #e2e8f0;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Background Grid */
+.bg-grid-pattern {
+  background-size: 40px 40px;
+  background-image:
+    linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
+}
+
+.bg-radial-orange {
+  background: radial-gradient(ellipse at 60% 10%, rgba(249, 115, 22, 0.07) 0%, transparent 55%);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #0d0d0d; }
+::-webkit-scrollbar-thumb { background: #272727; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #f97316; }
+
+/* Light mode scrollbar */
+.light ::-webkit-scrollbar-track { background: #f1f5f9; }
+.light ::-webkit-scrollbar-thumb { background: #cbd5e1; }
+.light ::-webkit-scrollbar-thumb:hover { background: #f97316; }
+
+/* Glass panels */
+.glass-panel {
+  background: var(--bg-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--bg-card-border);
+}
+
+.glass-nav {
+  background: rgba(13, 13, 13, 0.88);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.light .glass-nav {
+  background: rgba(255, 255, 255, 0.95);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Orange gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #f97316 0%, #fb923c 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Orange glow box shadow utility */
+.shadow-orange-glow {
+  box-shadow: 0 0 30px -5px rgba(249, 115, 22, 0.4);
+}
+.shadow-orange-glow-sm {
+  box-shadow: 0 0 20px -5px rgba(249, 115, 22, 0.25);
+}
+
+/* Profile photo frame */
+.profile-frame {
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  overflow: hidden;
+}
+
+/* Shimmer animation for loading states */
+.shimmer-bg {
+  background: linear-gradient(90deg, #141414 25%, #1f1f1f 50%, #141414 75%);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* =====================================================
+   HIGH-CONTRAST LIGHT THEME RULES
+   Ensures all text, metadata, cards, and labels are
+   exceptionally clear and never disappear on light mode.
+   ===================================================== */
+
+.light body {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+}
+
+/* Primary text headings */
+.light h1, .light h2, .light h3, .light h4, .light h5, .light h6,
+.light .text-white {
+  color: #0f172a !important;
+}
+
+/* Body / description text */
+.light p,
+.light .text-\[\#a3a3a3\],
+.light .text-\[\#888\],
+.light .text-\[\#777\],
+.light .text-\[\#666\],
+.light .text-\[\#555\] {
+  color: #334155 !important;
+}
+
+/* Small metadata, tags, and monospace labels */
+.light .text-\[\#bbb\],
+.light .text-\[\#aaa\],
+.light .text-\[\#999\],
+.light .text-\[\#555555\] {
+  color: #475569 !important;
+}
+
+/* Solid section background styling */
+.light section,
+.light .bg-\[\#0d0d0d\] {
+  background-color: #ffffff !important;
+}
+
+/* Secondary alternate section & card backgrounds */
+.light .bg-\[\#f8f8f8\] {
+  background-color: #f8fafc !important;
+}
+
+.light .bg-\[\#141414\],
+.light .bg-\[\#f4f4f4\] {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+}
+
+.light .bg-\[\#1a1a1a\],
+.light .bg-\[\#ebebeb\] {
+  background-color: #f1f5f9 !important;
+  border-color: #cbd5e1 !important;
+}
+
+.light .bg-\[\#080808\] {
+  background-color: #f8fafc !important;
+}
+
+/* Crisp borders */
+.light .border-\[\#272727\],
+.light .border-\[\#1a1a1a\],
+.light .border-\[\#1f1f1f\],
+.light .border-\[\#e0e0e0\],
+.light .border-\[\#e5e5e5\] {
+  border-color: #e2e8f0 !important;
+}
+
+/* Card badges and tags */
+.light span.rounded.bg-\[\#f4f4f4\],
+.light span.rounded.bg-\[\#1a1a1a\],
+.light span.rounded.bg-\[\#f8f8f8\],
+.light span.rounded.bg-\[\#1f1f1f\] {
+  background-color: #f1f5f9 !important;
+  color: #1e293b !important;
+  border-color: #cbd5e1 !important;
+  font-weight: 500;
+}
+
+/* Input fields */
+.light input,
+.light textarea {
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
+  border-color: #cbd5e1 !important;
+}
+.light input::placeholder,
+.light textarea::placeholder {
+  color: #94a3b8 !important;
+}
+
+/* Footer */
+.light footer {
+  background-color: #f8fafc !important;
+  border-top-color: #e2e8f0 !important;
+}
+
+/* Navigation pill */
+.light nav.hidden.lg\:flex {
+  background: rgba(248, 250, 252, 0.95) !important;
+  border-color: #e2e8f0 !important;
+}
