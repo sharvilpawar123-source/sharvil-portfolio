@@ -10,7 +10,7 @@
 
 <br/>
 
-[![Portfolio](https://img.shields.io/badge/Portfolio-Live_Demo-c46a5a?style=for-the-badge&logo=googlechrome&logoColor=white)](YOUR_LIVE_PORTFOLIO_URL)
+<!--[![Portfolio](https://img.shields.io/badge/Portfolio-Live_Demo-c46a5a?style=for-the-badge&logo=googlechrome&logoColor=white)](YOUR_LIVE_PORTFOLIO_URL) -->
 [![GitHub](https://img.shields.io/badge/Source_Code-GitHub-1c2230?style=for-the-badge&logo=github&logoColor=white)](https://github.com/sharvilpawar123-source/sharvil-portfolio)
 
 </div>
