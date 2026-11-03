@@ -5,12 +5,12 @@ import { portfolioData, JourneyMilestone } from '../data/portfolioData';
 import { Calendar, Building, Sparkles } from 'lucide-react';
 
 export const Journey: React.FC = () => (
-  <section id="journey" className="py-24 relative bg-[#f8fafc] dark:bg-[#0d0d0d] border-t border-[#e2e8f0] dark:border-[#1a1a1a]">
+  <section id="journey" className="py-24 relative bg-[#f8fafc] dark:bg-[#0d0d0d] border-t border-[#e2e8f0] dark:border-[#1a1a1a] overflow-hidden">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <SectionHeading number="04" label="JOURNEY" title="THE JOURNEY"
         subtitle="My academic progression, technical societies, milestones, and continuous engineering path." />
 
-      <div className="relative max-w-4xl mx-auto pl-6 sm:pl-8 border-l-2 border-[#cbd5e1] dark:border-[#272727] space-y-12 my-8">
+      <div className="relative max-w-4xl mx-auto ml-7 sm:mx-auto pl-6 sm:pl-8 border-l-2 border-[#cbd5e1] dark:border-[#272727] space-y-12 my-8">
         {portfolioData.journey.map((item: JourneyMilestone, idx: number) => (
           <motion.div key={idx} initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }} transition={{ duration: 0.5, delay: idx * 0.15 }} className="relative group">

@@ -41,7 +41,7 @@ export const GitHubActivity: React.FC = () => {
   ];
 
   return (
-    <section id="github" className="py-24 relative bg-[#f8f8f8] dark:bg-[#0d0d0d] border-t border-[#eee] dark:border-[#1a1a1a]">
+    <section id="github" className="py-24 relative bg-[#f8f8f8] dark:bg-[#0d0d0d] border-t border-[#eee] dark:border-[#1a1a1a] overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeading number="07" label="GITHUB ANALYTICS" title="CODE IN THE WILD"
           subtitle="Live repository overview, language distribution, and open-source code metrics." />
@@ -85,7 +85,7 @@ export const GitHubActivity: React.FC = () => {
 
           {/* Language chart */}
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-            transition={{ delay: 0.15 }} className="lg:col-span-7 p-6 sm:p-8 rounded-2xl bg-[#141414] border border-[#272727]">
+            transition={{ delay: 0.15 }} className="lg:col-span-7 min-w-0 p-6 sm:p-8 rounded-2xl bg-[#141414] border border-[#272727]">
             <div className="flex items-center justify-between mb-6">
               <h3 className="font-mono text-sm font-bold text-white uppercase">LANGUAGE DISTRIBUTION</h3>
               <span className="font-mono text-xs text-[#f97316]">ANALYSIS</span>

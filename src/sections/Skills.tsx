@@ -14,7 +14,7 @@ export const Skills: React.FC = () => {
     : portfolioData.skillCategories.filter(c => c.title === activeCategory);
 
   return (
-    <section id="skills" className="py-24 relative bg-[#f8fafc] dark:bg-[#0d0d0d] border-t border-[#e2e8f0] dark:border-[#1a1a1a]">
+    <section id="skills" className="py-24 relative bg-[#f8fafc] dark:bg-[#0d0d0d] border-t border-[#e2e8f0] dark:border-[#1a1a1a] overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeading number="02" label="TOOLKIT" title="MY TOOLKIT"
           subtitle="Technologies, frameworks, data tools, and programming languages I use to construct intelligent software." />

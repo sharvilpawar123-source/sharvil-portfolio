@@ -7,7 +7,7 @@ import { GraduationCap, MapPin, Award, CheckCircle2 } from 'lucide-react';
 export const Education: React.FC = () => {
   const { education } = portfolioData;
   return (
-    <section id="education" className="py-24 relative bg-white dark:bg-[#0d0d0d] border-t border-[#e2e8f0] dark:border-[#1a1a1a]">
+    <section id="education" className="py-24 relative bg-white dark:bg-[#0d0d0d] border-t border-[#e2e8f0] dark:border-[#1a1a1a] overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeading number="08" label="ACADEMICS" title="EDUCATION & INSTITUTION"
           subtitle="My academic foundation at one of Pune's premier engineering institutions." />

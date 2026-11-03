@@ -6,7 +6,7 @@ export const Footer: React.FC = () => {
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
   return (
-    <footer className="bg-[#f8fafc] dark:bg-[#080808] text-[#475569] dark:text-[#a3a3a3] border-t border-[#e2e8f0] dark:border-[#1a1a1a] py-12">
+    <footer className="bg-[#f8fafc] dark:bg-[#080808] text-[#475569] dark:text-[#a3a3a3] border-t border-[#e2e8f0] dark:border-[#1a1a1a] py-12 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 pb-12 border-b border-[#e2e8f0] dark:border-[#1a1a1a]">

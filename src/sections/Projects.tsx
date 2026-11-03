@@ -24,7 +24,7 @@ export const Projects: React.FC = () => {
   };
 
   return (
-    <section id="projects" className="py-24 relative bg-white dark:bg-[#0d0d0d] border-t border-[#e2e8f0] dark:border-[#1a1a1a]">
+    <section id="projects" className="py-24 relative bg-white dark:bg-[#0d0d0d] border-t border-[#e2e8f0] dark:border-[#1a1a1a] overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeading number="03" label="SELECTED WORK" title="WHAT I BUILD"
           subtitle="Things I've built, explored, and learned from across AI, Data Science, and Full Stack development." />

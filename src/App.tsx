@@ -42,11 +42,11 @@ export const App: React.FC = () => {
       {loading && <LoadingScreen onComplete={() => setLoading(false)} />}
       
       {!loading && (
-        <div className={`min-h-screen transition-colors duration-300 relative ${isDark ? 'bg-[#0d0d0d] text-white' : 'bg-white text-[#0d0d0d]'}`}>
+        <div className={`min-h-screen transition-colors duration-300 relative w-full max-w-full overflow-x-hidden ${isDark ? 'bg-[#0d0d0d] text-white' : 'bg-white text-[#0d0d0d]'}`}>
           <CustomCursor />
           <Navbar isDark={isDark} toggleTheme={toggleTheme} />
           
-          <main>
+          <main className="w-full max-w-full overflow-x-hidden">
             <Hero />
             <About />
             <Skills />

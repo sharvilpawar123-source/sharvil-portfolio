@@ -38,25 +38,25 @@ export const Navbar: React.FC<NavbarProps> = ({ isDark, toggleTheme }) => {
   }, []);
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
+    <header className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 w-full max-w-full ${
       scrolled
         ? isDark
-          ? 'bg-[#0d0d0d]/88 backdrop-blur-xl border-b border-white/5 py-3.5 shadow-lg'
-          : 'bg-white/95 backdrop-blur-xl border-b border-[#e2e8f0] py-3.5 shadow-sm'
-        : 'bg-transparent py-5'
+          ? 'bg-[#0d0d0d]/88 backdrop-blur-xl border-b border-white/5 py-3 sm:py-3.5 shadow-lg'
+          : 'bg-white/95 backdrop-blur-xl border-b border-[#e2e8f0] py-3 sm:py-3.5 shadow-sm'
+        : 'bg-transparent py-4 sm:py-5'
     }`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between w-full">
 
         {/* Brand */}
-        <a href="#home" className="flex items-center gap-3 group" data-cursor>
-          <div className={`w-9 h-9 rounded-xl flex items-center justify-center font-display font-extrabold text-sm text-[#f97316] group-hover:border-[#f97316] group-hover:shadow-orange-glow-sm transition-all border ${isDark ? 'bg-[#141414] border-[#272727]' : 'bg-[#f1f5f9] border-[#cbd5e1]'}`}>
+        <a href="#home" className="flex items-center gap-2.5 sm:gap-3 group shrink-0" data-cursor>
+          <div className={`w-8 h-8 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center font-display font-extrabold text-xs sm:text-sm text-[#f97316] group-hover:border-[#f97316] group-hover:shadow-orange-glow-sm transition-all border ${isDark ? 'bg-[#141414] border-[#272727]' : 'bg-[#f1f5f9] border-[#cbd5e1]'}`}>
             SP
           </div>
           <div className="flex flex-col">
-            <span className={`font-display font-bold tracking-wide text-sm group-hover:text-[#f97316] transition-colors ${isDark ? 'text-white' : 'text-[#0f172a]'}`}>
+            <span className={`font-display font-bold tracking-wide text-xs sm:text-sm group-hover:text-[#f97316] transition-colors ${isDark ? 'text-white' : 'text-[#0f172a]'}`}>
               SHARVIL PAWAR
             </span>
-            <span className={`font-mono text-[10px] hidden sm:block ${isDark ? 'text-[#777]' : 'text-[#475569] font-medium'}`}>
+            <span className={`font-mono text-[9px] sm:text-[10px] hidden sm:block ${isDark ? 'text-[#777]' : 'text-[#475569] font-medium'}`}>
               AI & DS // PICT PUNE
             </span>
           </div>
@@ -114,12 +114,12 @@ export const Navbar: React.FC<NavbarProps> = ({ isDark, toggleTheme }) => {
         </div>
 
         {/* Mobile controls */}
-        <div className="flex items-center gap-2 sm:hidden">
-          <button onClick={toggleTheme} className={`p-2 rounded-lg border ${isDark ? 'text-[#a3a3a3] border-[#272727]' : 'text-[#334155] border-[#cbd5e1]'}`}>
+        <div className="flex items-center gap-1.5 sm:gap-2 sm:hidden shrink-0">
+          <button onClick={toggleTheme} className={`p-2 rounded-lg border ${isDark ? 'text-[#a3a3a3] border-[#272727]' : 'text-[#334155] border-[#cbd5e1]'}`} aria-label="Toggle theme">
             {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
           </button>
           <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className={`p-2 rounded-lg border ${isDark ? 'bg-[#141414] border-[#272727]' : 'bg-[#f1f5f9] border-[#cbd5e1]'}`}>
+            className={`p-2 rounded-lg border ${isDark ? 'bg-[#141414] border-[#272727]' : 'bg-[#f1f5f9] border-[#cbd5e1]'}`} aria-label="Toggle menu">
             {mobileMenuOpen
               ? <X className="w-5 h-5 text-[#f97316]" />
               : <Menu className={`w-5 h-5 ${isDark ? 'text-white' : 'text-[#0f172a]'}`} />

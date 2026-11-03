@@ -15,7 +15,7 @@ export const Certifications: React.FC = () => {
     : portfolioData.certifications.filter(c => c.category === activeTab);
 
   return (
-    <section id="certifications" className="py-24 relative bg-white dark:bg-[#0d0d0d] border-t border-[#eee] dark:border-[#1a1a1a]">
+    <section id="certifications" className="py-24 relative bg-white dark:bg-[#0d0d0d] border-t border-[#eee] dark:border-[#1a1a1a] overflow-hidden">
       {/* Background radial accent */}
       <div className="absolute top-1/4 right-0 w-[500px] h-[500px] bg-[#f97316]/3 blur-[120px] pointer-events-none" />
 
