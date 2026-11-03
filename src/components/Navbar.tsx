@@ -33,9 +33,32 @@ export const Navbar: React.FC<NavbarProps> = ({ isDark, toggleTheme }) => {
         if (el && el.offsetTop <= pos) { setActiveSection(sections[i]); break; }
       }
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const handleMobileNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    setMobileMenuOpen(false);
+
+    const targetId = href.replace('#', '');
+    const element = document.getElementById(targetId);
+
+    if (element) {
+      setTimeout(() => {
+        const navHeight = 70;
+        const elementPosition = element.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - navHeight;
+
+        window.scrollTo({
+          top: Math.max(0, offsetPosition),
+          behavior: 'smooth'
+        });
+
+        window.history.pushState(null, '', href);
+      }, 100);
+    }
+  };
 
   return (
     <header className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 w-full max-w-full ${
@@ -48,7 +71,16 @@ export const Navbar: React.FC<NavbarProps> = ({ isDark, toggleTheme }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between w-full">
 
         {/* Brand */}
-        <a href="#home" className="flex items-center gap-2.5 sm:gap-3 group shrink-0" data-cursor>
+        <a
+          href="#home"
+          onClick={(e) => {
+            if (mobileMenuOpen) {
+              handleMobileNavClick(e, '#home');
+            }
+          }}
+          className="flex items-center gap-2.5 sm:gap-3 group shrink-0"
+          data-cursor
+        >
           <div className={`w-8 h-8 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center font-display font-extrabold text-xs sm:text-sm text-[#f97316] group-hover:border-[#f97316] group-hover:shadow-orange-glow-sm transition-all border ${isDark ? 'bg-[#141414] border-[#272727]' : 'bg-[#f1f5f9] border-[#cbd5e1]'}`}>
             SP
           </div>
@@ -143,8 +175,16 @@ export const Navbar: React.FC<NavbarProps> = ({ isDark, toggleTheme }) => {
                 OPEN TO OPPORTUNITIES
               </div>
               {navItems.map((item) => (
-                <a key={item.label} href={item.href} onClick={() => setMobileMenuOpen(false)}
-                  className={`font-mono text-sm font-semibold tracking-wider py-2 transition-colors flex items-center justify-between hover:text-[#f97316] ${isDark ? 'text-[#a3a3a3]' : 'text-[#334155]'}`}>
+                <a
+                  key={item.label}
+                  href={item.href}
+                  onClick={(e) => handleMobileNavClick(e, item.href)}
+                  className={`font-mono text-sm font-semibold tracking-wider py-2.5 transition-colors flex items-center justify-between hover:text-[#f97316] cursor-pointer ${
+                    activeSection === item.href.substring(1)
+                      ? 'text-[#f97316]'
+                      : isDark ? 'text-[#a3a3a3]' : 'text-[#334155]'
+                  }`}
+                >
                   <span>{item.label}</span>
                   <ArrowUpRight className="w-4 h-4 text-[#f97316]" />
                 </a>
