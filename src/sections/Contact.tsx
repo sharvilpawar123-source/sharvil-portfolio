@@ -115,6 +115,8 @@ export const Contact: React.FC = () => {
           email: formData.email,
           message: formData.message,
           _subject: `New Portfolio Message from ${formData.name}`,
+          _replyto: formData.email,
+          _captcha: 'false',
           _template: 'table'
         })
       });
