@@ -6,6 +6,7 @@ import { Mail, Linkedin, Github, Instagram, Send, CheckCircle2, ArrowUpRight, Lo
 
 export const Contact: React.FC = () => {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [lastMessage, setLastMessage] = useState<{ name: string; email: string; message: string } | null>(null);
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<{ name?: string; email?: string; message?: string }>({});
@@ -101,59 +102,62 @@ export const Contact: React.FC = () => {
     if (!validate()) return;
 
     setLoading(true);
+    const currentData = { ...formData };
+    setLastMessage(currentData);
 
     try {
-      // Send real email via formsubmit.co directly to sharvilpawar123@gmail.com
-      const res = await fetch(`https://formsubmit.co/ajax/${portfolioData.personal.email}`, {
+      const response = await fetch(`https://formsubmit.co/ajax/${portfolioData.personal.email}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
         },
         body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          message: formData.message,
-          _subject: `New Portfolio Message from ${formData.name}`,
-          _replyto: formData.email,
+          name: currentData.name,
+          email: currentData.email,
+          message: currentData.message,
+          _subject: `Portfolio Message from ${currentData.name} (${currentData.email})`,
+          _replyto: currentData.email,
           _captcha: 'false',
           _template: 'table'
         })
       });
 
-      if (res.ok) {
-        setSubmitted(true);
-        setFormData({ name: '', email: '', message: '' });
-      } else {
-        fallbackMailto();
+      if (!response.ok) {
+        throw new Error('Submission failed');
       }
-    } catch {
-      fallbackMailto();
+
+      setSubmitted(true);
+      setFormData({ name: '', email: '', message: '' });
+    } catch (err) {
+      console.warn('Background submission failed, triggering direct email fallback', err);
+      // Fallback: direct compose in mail app so message is never lost
+      const subject = encodeURIComponent(`Portfolio Message from ${currentData.name}`);
+      const bodyContent = encodeURIComponent(
+        `Hi Sharvil,\n\nName: ${currentData.name}\nEmail: ${currentData.email}\n\nMessage:\n${currentData.message}`
+      );
+      const isMobile = typeof navigator !== 'undefined' && /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      if (isMobile) {
+        window.location.href = `mailto:${portfolioData.personal.email}?subject=${subject}&body=${bodyContent}`;
+      } else {
+        window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${portfolioData.personal.email}&su=${subject}&body=${bodyContent}`, '_blank', 'noopener,noreferrer');
+      }
+      setSubmitted(true);
+      setFormData({ name: '', email: '', message: '' });
     } finally {
       setLoading(false);
     }
   };
 
-  const fallbackMailto = () => {
-    const subject = encodeURIComponent(`Portfolio Message from ${formData.name}`);
-    const body = encodeURIComponent(`Hi Sharvil,\n\nName: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`);
-    window.open(`mailto:${portfolioData.personal.email}?subject=${subject}&body=${body}`, '_blank');
-    setSubmitted(true);
-    setFormData({ name: '', email: '', message: '' });
-  };
-
   const emailSubject = encodeURIComponent("Project Inquiry - Sharvil Pawar");
-  const mailtoLink = `mailto:${portfolioData.personal.email}?subject=${emailSubject}`;
-  const webGmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${portfolioData.personal.email}&su=${emailSubject}`;
+  const emailBody = encodeURIComponent("Hi Sharvil,\n\nI came across your portfolio and would like to connect regarding:\n");
+  const mailtoLink = `mailto:${portfolioData.personal.email}?subject=${emailSubject}&body=${emailBody}`;
+  const webGmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${portfolioData.personal.email}&su=${emailSubject}&body=${emailBody}`;
 
   const handleEmailAction = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    // Detect mobile devices (Android / iOS)
     const isMobile = typeof navigator !== 'undefined' && /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     if (isMobile) {
-      // On mobile, native mailto: opens Gmail app compose directly with:
-      // From: [sender's active account]
-      // To: sharvilpawar123@gmail.com
-      // Subject: Project Inquiry - Sharvil Pawar
+      // On mobile, mailto opens native Gmail app with To, Subject, and Body pre-filled
       return;
     }
     // On desktop, open Gmail Web compose in a new browser tab
@@ -284,16 +288,47 @@ export const Contact: React.FC = () => {
                   MESSAGE TRANSMITTED!
                 </h5>
                 <p className="font-sans text-xs sm:text-sm text-[#334155] dark:text-[#a3a3a3] max-w-sm mx-auto leading-relaxed">
-                  Thank you for reaching out! Your message has been sent to{' '}
+                  Thank you for reaching out! Your message has been routed to{' '}
                   <span className="text-[#f97316] font-semibold font-mono">{portfolioData.personal.email}</span>.
                   I will review and get back to you promptly.
                 </p>
-                <button
-                  onClick={() => setSubmitted(false)}
-                  className="mt-4 px-6 py-2.5 rounded-xl bg-[#f1f5f9] dark:bg-[#222] border border-[#cbd5e1] dark:border-[#333] text-xs font-mono text-[#0f172a] dark:text-white hover:border-[#f97316] transition-colors"
-                >
-                  SEND ANOTHER MESSAGE
-                </button>
+
+                <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
+                  {lastMessage && (
+                    <a
+                      href={`mailto:${portfolioData.personal.email}?subject=${encodeURIComponent(
+                        `Portfolio Message from ${lastMessage.name}`
+                      )}&body=${encodeURIComponent(
+                        `Hi Sharvil,\n\nName: ${lastMessage.name}\nEmail: ${lastMessage.email}\n\nMessage:\n${lastMessage.message}`
+                      )}`}
+                      onClick={(e) => {
+                        const isMobile = typeof navigator !== 'undefined' && /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+                        if (!isMobile) {
+                          e.preventDefault();
+                          const webUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${portfolioData.personal.email}&su=${encodeURIComponent(
+                            `Portfolio Message from ${lastMessage.name}`
+                          )}&body=${encodeURIComponent(
+                            `Hi Sharvil,\n\nName: ${lastMessage.name}\nEmail: ${lastMessage.email}\n\nMessage:\n${lastMessage.message}`
+                          )}`;
+                          window.open(webUrl, '_blank', 'noopener,noreferrer');
+                        }
+                      }}
+                      className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-[#f97316] text-black font-mono text-xs font-bold hover:bg-[#ea6c0a] transition-all shadow-sm w-full sm:w-auto"
+                    >
+                      <Mail className="w-3.5 h-3.5" />
+                      <span>OPEN IN GMAIL APP ↗</span>
+                    </a>
+                  )}
+                  <button
+                    onClick={() => {
+                      setSubmitted(false);
+                      setLastMessage(null);
+                    }}
+                    className="px-5 py-2.5 rounded-xl bg-[#f1f5f9] dark:bg-[#222] border border-[#cbd5e1] dark:border-[#333] text-xs font-mono text-[#0f172a] dark:text-white hover:border-[#f97316] transition-colors w-full sm:w-auto"
+                  >
+                    SEND ANOTHER MESSAGE
+                  </button>
+                </div>
               </motion.div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-5" noValidate>
