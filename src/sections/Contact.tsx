@@ -140,7 +140,24 @@ export const Contact: React.FC = () => {
     setFormData({ name: '', email: '', message: '' });
   };
 
-  const webGmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${portfolioData.personal.email}&su=Project%20Inquiry%20-%20Sharvil%20Pawar`;
+  const emailSubject = encodeURIComponent("Project Inquiry - Sharvil Pawar");
+  const mailtoLink = `mailto:${portfolioData.personal.email}?subject=${emailSubject}`;
+  const webGmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${portfolioData.personal.email}&su=${emailSubject}`;
+
+  const handleEmailAction = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    // Detect mobile devices (Android / iOS)
+    const isMobile = typeof navigator !== 'undefined' && /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    if (isMobile) {
+      // On mobile, native mailto: opens Gmail app compose directly with:
+      // From: [sender's active account]
+      // To: sharvilpawar123@gmail.com
+      // Subject: Project Inquiry - Sharvil Pawar
+      return;
+    }
+    // On desktop, open Gmail Web compose in a new browser tab
+    e.preventDefault();
+    window.open(webGmailLink, '_blank', 'noopener,noreferrer');
+  };
 
   const socials = [
     { icon: Linkedin, label: 'LINKEDIN', sub: 'PRIMARY PROFESSIONAL', url: portfolioData.socials.linkedin.url },
@@ -189,20 +206,21 @@ export const Contact: React.FC = () => {
 
               {/* One clean clickable Email Box that opens Gmail directly */}
               <a
-                href={webGmailLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group/mail flex items-center justify-between p-4 rounded-xl bg-[#f8fafc] dark:bg-[#1a1a1a] border border-[#cbd5e1] dark:border-[#272727] hover:border-[#f97316] transition-all"
-                title="Click to open in Gmail directly"
+                href={mailtoLink}
+                onClick={handleEmailAction}
+                className="group/mail flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-xl bg-[#f8fafc] dark:bg-[#1a1a1a] border border-[#cbd5e1] dark:border-[#272727] hover:border-[#f97316] transition-all cursor-pointer"
+                title="Click to compose email to Sharvil Pawar"
                 data-cursor
               >
-                <div className="flex items-center gap-3">
-                  <Mail className="w-5 h-5 text-[#f97316]" />
-                  <span className="font-mono text-sm sm:text-base font-bold text-[#0f172a] dark:text-white group-hover/mail:text-[#f97316] transition-colors break-all">
+                <div className="flex items-center gap-3 min-w-0">
+                  <div className="w-9 h-9 rounded-lg bg-[#f97316]/10 flex items-center justify-center shrink-0">
+                    <Mail className="w-4 h-4 text-[#f97316]" />
+                  </div>
+                  <span className="font-mono text-xs sm:text-sm font-bold text-[#0f172a] dark:text-white group-hover/mail:text-[#f97316] transition-colors truncate">
                     {portfolioData.personal.email}
                   </span>
                 </div>
-                <span className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#f97316] text-black font-mono text-xs font-bold tracking-wider group-hover/mail:bg-[#ea6c0a] transition-all shadow-sm shrink-0">
+                <span className="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-lg bg-[#f97316] text-black font-mono text-xs font-bold tracking-wider group-hover/mail:bg-[#ea6c0a] transition-all shadow-sm shrink-0 w-full sm:w-auto">
                   OPEN GMAIL ↗
                 </span>
               </a>
